@@ -1,0 +1,46 @@
+{
+  "name": "postgre",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev:front": "parcel serve ./fe-src/index.html",
+    "dev:back": "nodemon --watch ./be-src/index.ts --exec ts-node ./be-src/index.ts",
+    "dev": "concurrently \"npm run dev:front\" \"npm run dev:back\"",
+    "dev:sync": "ts-node ./be-src/sync.ts",
+    "build:be": "tsc ./be-src/index.ts",
+    "build:fe": "parcel build ./fe-src/index.html",
+    "start": "node ./be-src/index.js",
+    "build": "npm run build:be && npm run build:fe"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@mapbox/mapbox-gl-geocoder": "^5.0.1",
+    "@types/mapbox__mapbox-gl-geocoder": "^4.7.4",
+    "@vaadin/router": "^1.7.5",
+    "algoliasearch": "^4.19.1",
+    "cloudinary": "^1.39.0",
+    "concurrently": "^8.2.0",
+    "cors": "^2.8.5",
+    "dropzone": "^6.0.0-beta.2",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.1",
+    "mapbox-gl": "^2.15.0",
+    "nodemon": "^3.0.1",
+    "parcel": "^2.9.3",
+    "pg": "^8.11.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.32.1"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
+    "dotenv": "^16.3.1",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
+    "stream-browserify": "^3.0.0"
+  }
+}
