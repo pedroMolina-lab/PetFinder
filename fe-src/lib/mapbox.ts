@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv"
 dotenv.config()
-const MAPBOX_TOKEN = process.env.MAP_BOX_TOKEN;
+const MAPBOX_TOKEN = process.env.MAP_BOX_TOKEN
 import * as mapboxgl from "mapbox-gl"
 import * as MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "mapbox-gl/dist/mapbox-gl.css";

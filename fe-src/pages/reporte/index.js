@@ -1,143 +1,117 @@
-import { state } from "../../state";
-import { Router } from "@vaadin/router";
-import { InitDropzone } from "../../lib/dropzone";
-import * as mapboxgl from "mapbox-gl";
-import { initMapbox, geocoder } from "../../lib/mapbox";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ReportePet = void 0;
+const state_1 = require("../../state");
+const router_1 = require("@vaadin/router");
+const dropzone_1 = require("../../lib/dropzone");
+const mapboxgl = require("mapbox-gl");
+const mapbox_1 = require("../../lib/mapbox");
 let imagen = require("../../imagenes/img-insertar.png");
 // let imagenInsert = require("../../imagenes/img-mapa-insert.png")
-
-export class ReportePet extends HTMLElement {
-  constructor() {
-    super();
-  }
-
-  connectedCallback() {
-    state.init();
-    this.render();
-
-
-
-    const mapboxUbi = this.querySelector(".mapbox-ubi");
-
-    const that = this;
-    dataMapbox(mapboxUbi);
-    const dataAGuardar = {};
-    function dataMapbox(el) {
-      const search = that.querySelector(".search");
-
-      const map = initMapbox(el);
-
-      if (search) {
-        search.appendChild(geocoder.onAdd(map));
-        
-        geocoder.on("result", function (e) {
-          const result = e.result;
-          const [lng, lat] = result.geometry.coordinates;
-          new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
-          map.setCenter([lng, lat]);
-          map.setZoom(14);
-          dataAGuardar["lugar"] = result.place_name;
-          dataAGuardar["lng"] = lng
-          dataAGuardar["lat"] = lat;
-          
-        });
-      }
+class ReportePet extends HTMLElement {
+    constructor() {
+        super();
     }
-
-    const form: any = document.querySelector(".reporte-form");
-    let pictureFile;
-    let imageDataUrl;
-    const myDropzone = InitDropzone(".profile-pic");
-    myDropzone.on("addedfile", function (file) {
-      const previousImage = document.querySelector(
-        ".insert-image"
-      ) as HTMLElement;
-      const previousText = document.querySelector(".text-info") as HTMLElement;
-      const deleteText = document.querySelector(".delete-link") as HTMLElement;
-
-      if (previousImage) {
-        previousImage.style.display = "none";
-      }
-      if (previousText) {
-        previousText.style.display = "none";
-      }
-      if (deleteText) {
-        deleteText.style.display = "block";
-      }
-
-      deleteText.addEventListener("click", () => {
-        myDropzone.removeAllFiles();
-
-        previousImage.style.display = "block";
-        previousText.style.display = "block";
-        deleteText.style.display = "none";
-      });
-
-      pictureFile = file;
-    });
-    const imageElement = document.querySelector(".insert-image");
-    imageElement?.addEventListener("click", () => {
-      myDropzone.hiddenFileInput.click();
-    });
-    form.addEventListener("submit", async (e) => {
-      const name = (this.querySelector(".name") as HTMLInputElement).value;
-      const bio = (this.querySelector(".bio") as HTMLInputElement).value;
-      const lugar = dataAGuardar["lugar"]
-      const lat = dataAGuardar["lat"]
-      const lng = dataAGuardar["lng"]
-      const pictureURL = pictureFile.dataURL
-
-      e.preventDefault();
-      
-      
-
-     const cs =  state.getState()
-     cs.name = name
-     cs.bio = bio
-     cs.lugar = lugar
-     cs.lat = lat
-     cs.lng = lng
-     cs.pictureURL = pictureURL
-      
-     console.log({
-        name,
-        bio,
-        pictureURL,
-       lugar,
-       lat,
-       lng
-      });
-
-      try{
-        const createPet = await state.createPet({
-          name,
-          bio,
-          pictureURL: pictureFile.dataURL,
-         lugar,
-         lat,
-         lng
-        })
-
-          alert("mascota reportada con exito")
-          Router.go("/")
-
-      }catch (error) {
-        console.error("Error al crear la mascota:", error);
-        alert("Error al crear la mascota");
-      }
-      const token = state.getState()
-   
-      if(token){
-        alert("debes iniciar sesion para continuar")
-      }
-
-
-
-    });
-  }
-
-  render() {
-    this.innerHTML = `
+    connectedCallback() {
+        state_1.state.init();
+        this.render();
+        const mapboxUbi = this.querySelector(".mapbox-ubi");
+        const that = this;
+        dataMapbox(mapboxUbi);
+        const dataAGuardar = {};
+        function dataMapbox(el) {
+            const search = that.querySelector(".search");
+            const map = (0, mapbox_1.initMapbox)(el);
+            if (search) {
+                search.appendChild(mapbox_1.geocoder.onAdd(map));
+                mapbox_1.geocoder.on("result", function (e) {
+                    const result = e.result;
+                    const [lng, lat] = result.geometry.coordinates;
+                    new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
+                    map.setCenter([lng, lat]);
+                    map.setZoom(14);
+                    dataAGuardar["lugar"] = result.place_name;
+                    dataAGuardar["lng"] = lng;
+                    dataAGuardar["lat"] = lat;
+                });
+            }
+        }
+        const form = document.querySelector(".reporte-form");
+        let pictureFile;
+        let imageDataUrl;
+        const myDropzone = (0, dropzone_1.InitDropzone)(".profile-pic");
+        myDropzone.on("addedfile", function (file) {
+            const previousImage = document.querySelector(".insert-image");
+            const previousText = document.querySelector(".text-info");
+            const deleteText = document.querySelector(".delete-link");
+            if (previousImage) {
+                previousImage.style.display = "none";
+            }
+            if (previousText) {
+                previousText.style.display = "none";
+            }
+            if (deleteText) {
+                deleteText.style.display = "block";
+            }
+            deleteText.addEventListener("click", () => {
+                myDropzone.removeAllFiles();
+                previousImage.style.display = "block";
+                previousText.style.display = "block";
+                deleteText.style.display = "none";
+            });
+            pictureFile = file;
+        });
+        const imageElement = document.querySelector(".insert-image");
+        imageElement?.addEventListener("click", () => {
+            myDropzone.hiddenFileInput.click();
+        });
+        form.addEventListener("submit", async (e) => {
+            const name = this.querySelector(".name").value;
+            const bio = this.querySelector(".bio").value;
+            const lugar = dataAGuardar["lugar"];
+            const lat = dataAGuardar["lat"];
+            const lng = dataAGuardar["lng"];
+            const pictureURL = pictureFile.dataURL;
+            e.preventDefault();
+            const cs = state_1.state.getState();
+            cs.name = name;
+            cs.bio = bio;
+            cs.lugar = lugar;
+            cs.lat = lat;
+            cs.lng = lng;
+            cs.pictureURL = pictureURL;
+            console.log({
+                name,
+                bio,
+                pictureURL,
+                lugar,
+                lat,
+                lng
+            });
+            try {
+                const createPet = await state_1.state.createPet({
+                    name,
+                    bio,
+                    pictureURL: pictureFile.dataURL,
+                    lugar,
+                    lat,
+                    lng
+                });
+                alert("mascota reportada con exito");
+                router_1.Router.go("/");
+            }
+            catch (error) {
+                console.error("Error al crear la mascota:", error);
+                alert("Error al crear la mascota");
+            }
+            const token = state_1.state.getState();
+            if (token) {
+                alert("debes iniciar sesion para continuar");
+            }
+        });
+    }
+    render() {
+        this.innerHTML = `
         <custom-navbar></custom-navbar>
         <div class="welcome-content">
             <h1 class="welcome-title">Reportar Mascota</h1>
@@ -168,9 +142,8 @@ export class ReportePet extends HTMLElement {
         </div>
         
         `;
-
-    const style = document.createElement("style");
-    style.innerHTML = `
+        const style = document.createElement("style");
+        style.innerHTML = `
             .welcome-content {
                 text-align: center;
                 padding: 20px;
@@ -298,14 +271,12 @@ export class ReportePet extends HTMLElement {
               }
             
         `;
-
-    this.appendChild(style);
-
-    const registerLink = this.querySelector("#register-link");
-    registerLink?.addEventListener("click", () => {
-      Router.go("/registro");
-    });
-  }
+        this.appendChild(style);
+        const registerLink = this.querySelector("#register-link");
+        registerLink?.addEventListener("click", () => {
+            router_1.Router.go("/registro");
+        });
+    }
 }
-
+exports.ReportePet = ReportePet;
 customElements.define("reporte-page", ReportePet);

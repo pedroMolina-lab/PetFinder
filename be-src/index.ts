@@ -1,10 +1,9 @@
 import * as dotenv from "dotenv"
 dotenv.config()
-import * as express from "express";
+import * as  express from "express";
 import * as path from "path";
 import * as jwt from "jsonwebtoken";
-import * as cors from "cors";
-const app = express();
+import * as  cors from "cors";
 const port = process.env.PORT || 3000;
 import { ubicacion, createdUser  } from "./controllers/users-controllers";
 import {
@@ -14,10 +13,9 @@ import {
 } from "./controllers/auth-controllers";
 import { updateProfile, getUserWithPets, deletePet, verMascotasConUsuarios, PetCerca } from "./controllers/pet-controllers";
 import { Auth } from "./models/auth";
-
-
+// const staticDirPath = path.resolve(__dirname, "../dist");
 const KEY = process.env.KEY_SECRET;
-
+const app = express();
 app.use(express.json({
   limit: "50mb",
 }));
@@ -153,12 +151,17 @@ app.get("/watch", async (req, res) => {
   }
 });
 
-app.post("/ubicacion/:id", async(req, res)=>{
-  const {id} = req.params
-    const ubicacionUsuario = await ubicacion(id, req.body)
-    res.json(ubicacionUsuario)
-  
-})
+app.post("/ubicacion/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const ubicacionUsuario = await ubicacion(id, req.body);
+    res.json(ubicacionUsuario);
+  } catch (error) {
+    console.error("Error en la función de ubicación:", error);
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+});
+
 
 app.get("/pet-cerca", async (req, res)=>{
   const {lat, lng} = req.query
@@ -173,14 +176,13 @@ app.get("/pet-cerca", async (req, res)=>{
     res.status(500).json({ message: "Error al obtener las mascotas cerca" });
   }
 }) 
+const staticDirPath = path.join(__dirname, "../dist/index.html");
 
 
-const staticDirPath = path.resolve(__dirname, "..dist");
-
-app.use(express.static(staticDirPath));
+app.use(express.static("dist"));
 
 app.get("*", function (req, res) {
-  res.sendFile(staticDirPath + "/index.html");
+  res.sendFile(staticDirPath);
 });
 
 app.listen(port, () => {

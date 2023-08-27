@@ -7,7 +7,8 @@
     "dev:back": "nodemon --watch ./be-src/index.ts --exec ts-node ./be-src/index.ts",
     "dev": "concurrently \"npm run dev:front\" \"npm run dev:back\"",
     "dev:sync": "ts-node ./be-src/sync.ts",
-    "build:be": "tsc ./be-src/index.ts",
+    "test": "ava",
+    "build:be": "tsc",
     "build:fe": "parcel build ./fe-src/index.html",
     "start": "node ./be-src/index.js",
     "build": "npm run build:be && npm run build:fe"

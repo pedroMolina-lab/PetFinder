@@ -9,18 +9,20 @@ export class MascotasReportadas extends HTMLElement {
   connectedCallback() {
     state.init();
     this.render();
-  
+    
     this.loadMascotasReportadas();
   }
   
   async loadMascotasReportadas() {
     try {
       const reporteResponse = await state.mascotasReportadas();
-      
+          
       if (reporteResponse && reporteResponse.pets.length > 0) {
+        
         const petListContainer = this.querySelector(".pet-list") as any;
   
         reporteResponse.pets.forEach(pet => {
+       
           
       
 

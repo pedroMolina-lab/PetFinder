@@ -1,5 +1,4 @@
 import { Pet, User } from "../models";
-import * as jwt from "jsonwebtoken";
 import { index } from "../../fe-src/lib/algolia";
 import { cloudinary } from "../../fe-src/lib/cloudinary";
 
@@ -52,15 +51,20 @@ export async function updateProfile(userId, updateData) {
   }
 }
 export async function getUserWithPets(userId) {
-   if (!userId) {
-    throw new Error("no hay user id");
-  }
-      const user = await User.findByPk(userId, {
-        include: Pet, 
-      });
-  
-  return user;
-  }
+  try {
+    if (!userId) {
+      throw new Error("no hay user id");
+    }
+
+    const user = await User.findByPk(userId, {
+      include: Pet,
+    });
+
+    return user;
+  } catch (error) {
+    console.error("Error al obtener el usuario con mascotas:", error);
+}
+}
 
 export async function deletePet(id){
   console.log("el id de el controller ", id);

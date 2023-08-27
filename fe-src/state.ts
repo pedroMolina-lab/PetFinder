@@ -1,4 +1,7 @@
-const apiUrl = "http://localhost:3000";
+import * as  dotenv from "dotenv"
+dotenv.config()
+
+const apiUrl = process.env.URL_PRODUCT || process.env.URL_DEV ;
 
 const state = {
   data: {

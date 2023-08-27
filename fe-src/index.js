@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("./component/barra-nav");
+require("./component/boton");
+require("./pages/welcome");
+require("./pages/ingreso");
+require("./pages/registro");
+require("./pages/reporte");
+require("./pages/petReport");
+require("./pages/verMascota");
+require("./pages/miUbicacion");
+require("./router");

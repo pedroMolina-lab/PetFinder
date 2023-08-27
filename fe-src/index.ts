@@ -1,3 +1,4 @@
+import { state } from "./state";
 import "./component/barra-nav";
 import "./component/boton";
 import "./pages/welcome";

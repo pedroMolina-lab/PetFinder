@@ -12,18 +12,20 @@ export class verMascotasReportadas extends HTMLElement {
 
     try {
       const verMascotasResponse = await state.verMascotasPerdidas();
-
+      
       const cs = state.getState();
 
       const lat = cs.lat;
       const lng = cs.lng;
 
+      
       if (lng && lat) {
         try {
           const ubicacionSection = this.querySelector(".ubicacion") as any;
           ubicacionSection.classList.add("hidden");
-         
           const petCerca = await state.getPetCerca(lat, lng);
+         
+    
           
           this.renderPetCards(petCerca.hits);
           
@@ -88,6 +90,7 @@ export class verMascotasReportadas extends HTMLElement {
   render() {
     this.innerHTML = `
       <custom-navbar></custom-navbar>
+
       <h1 class="ubicacion">Para ver las mascotas cerca tuyo proporciona una ubicacion
       <a href="/miUbicacion">Haz clic aquí</a></h1>
       <div class="pet-list"></div>
@@ -101,6 +104,7 @@ export class verMascotasReportadas extends HTMLElement {
     .ubicacion{
       font-size: 18px;
     }
+   
     
     .pet-list {
         padding: 20px;

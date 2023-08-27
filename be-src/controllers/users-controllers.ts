@@ -1,6 +1,5 @@
 import { User, Pet } from "../models";
 import { cloudinary } from "../../fe-src/lib/cloudinary";
-import { index } from "../../fe-src/lib/algolia";
 
 // export async function createProduct(userId: number, productData) {
 //   if (!userId) {
