@@ -19,15 +19,6 @@ class verMascotasReportadas extends HTMLElement {
                     const ubicacionSection = this.querySelector(".ubicacion");
                     ubicacionSection.classList.add("hidden");
                     const petCerca = await state_1.state.getPetCerca(lat, lng);
-                    if (petCerca.hits.length === 0) {
-                        const ubicacionSection2 = this.querySelector(".ubicacion2");
-                        ubicacionSection2.classList.remove("hidden");
-                    }
-                    else {
-                        console.log("ocultando");
-                        const ubicacionSection2 = this.querySelector(".ubicacion2");
-                        ubicacionSection2.classList.add("hidden");
-                    }
                     this.renderPetCards(petCerca.hits);
                 }
                 catch (error) {
@@ -81,7 +72,6 @@ class verMascotasReportadas extends HTMLElement {
     render() {
         this.innerHTML = `
       <custom-navbar></custom-navbar>
-      <h1 class="ubicacion2">No hay ninguna mascota cerca tuyo..
 
       <h1 class="ubicacion">Para ver las mascotas cerca tuyo proporciona una ubicacion
       <a href="/miUbicacion">Haz clic aquí</a></h1>
@@ -95,10 +85,7 @@ class verMascotasReportadas extends HTMLElement {
     .ubicacion{
       font-size: 18px;
     }
-    .ubicacion2{
-      font-size: 24px;
-      text-align: center;
-    }
+   
     
     .pet-list {
         padding: 20px;

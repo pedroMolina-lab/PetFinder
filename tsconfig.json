@@ -5,6 +5,7 @@
         "resolveJsonModule": true,
         // "outDir": "be-dist",
         "module": "CommonJS",
+        "skipLibCheck": true
 
     },
     "include": ["be-src/**/*", "fe-src/**/*"],
