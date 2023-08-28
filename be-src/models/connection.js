@@ -4,9 +4,7 @@ exports.sequelize = void 0;
 const dotenv = require("dotenv");
 dotenv.config();
 const sequelize_1 = require("sequelize");
-exports.sequelize = new sequelize_1.Sequelize(process.env.SQL_CONN, {
-    dialect: "postgres"
-});
+exports.sequelize = new sequelize_1.Sequelize(process.env.SQL_CONN);
 (async () => {
     try {
         await exports.sequelize.authenticate();

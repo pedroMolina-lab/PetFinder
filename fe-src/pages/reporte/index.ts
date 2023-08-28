@@ -125,11 +125,7 @@ export class ReportePet extends HTMLElement {
         console.error("Error al crear la mascota:", error);
         alert("Error al crear la mascota");
       }
-      const token = state.getState()
    
-      if(token){
-        alert("debes iniciar sesion para continuar")
-      }
 
 
 
